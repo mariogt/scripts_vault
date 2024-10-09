@@ -1,14 +1,13 @@
 #!/bin/sh
 
-if [ -e "$HOME/backups/yoursite.tar.gz" ];
-then
-  echo "Old backup present ... deleting it"
-  rm -r $HOME/backups/yoursite.tar.gz
+if [ -e "$HOME/backups/yoursite.tar.gz" ]; then
+	echo "Old backup present ... deleting it"
+	rm -r $HOME/backups/yoursite.tar.gz
 else
-  echo "No old backup to delete ..."
+	echo "No old backup to delete ..."
 fi
 
-cd $HOME/backups 
+cd $HOME/backups
 echo "Downloading web site ..."
 wget -r -X /mail,/tmp,/ssl,/perl5,/etc,/cache --progress=bar --show-progress --timestamping --ftp-user=user --ftp-password=**** ftp://ftp.yoursite.com/
 

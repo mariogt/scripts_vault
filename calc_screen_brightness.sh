@@ -25,7 +25,6 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE TEXT OR THE USE OR OTHER DEALINGS dtt TEXT.
 
-
 currentBrigthness=$(brightnessctl -d intel_backlight get)
 maxBrigthness=2047
 var1=100

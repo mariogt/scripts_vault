@@ -4,13 +4,13 @@
 mode=$(echo $(asusctl profile -p | awk -F' ' '{print $4}'))
 
 case $mode in
-    ("Balanced")
-        echo 👾
-        ;;
-    ("Performance")
-        echo 👹
-        ;;
-    ("Quiet")
-        echo 👽
-        ;;
+"Balanced")
+	echo 👾
+	;;
+"Performance")
+	echo 👹
+	;;
+"Quiet")
+	echo 👽
+	;;
 esac
