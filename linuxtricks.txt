@@ -1,0 +1,375 @@
+# concat several terminal commands
+a; b = execute a then b 
+a && b = execute b only if a is executed succefully
+a || b = exucute b only if a fails
+ 
+# supress command output
+$ command >/dev/null
+
+# suppress error messages:
+$ command >/dev/null 2>&1
+
+# Or in bash, simply:
+$ command &>/dev/null
+
+dpi 2560x1440 x 17 = 173
+dpi 3840x2160 x 28 = 157
+
+# fix firefox submenus in i3
+about:config
+set ui.context_menus.after_mouseup to true
+or add this line to ~/.mozilla/firefox/<profile>/chrome/userChrome.css:
+#contentAreaContextMenu{ margin: 2px 0 0 2px }
+
+# repair corrupted flatpak
+sudo rm -r /var/lib/flatpak/repo
+sudo dnf reinstall flatpak
+# flatpak repair user
+flatpak repair --user
+# remove flatpak deleted apps yunk
+flatpak uninstall --delete-data
+
+# install handbrake on fedora
+# https://handbrake.fr/docs/en/1.4.0/get-handbrake/download-and-install.html
+flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+sudo flatpak install fr.handbrake.ghb.flatpakref
+
+#fix disk permissions
+
+--- chmod -R 755 /mount/point
+
+Set Owner to the primary user
+chown [OPTION]... [OWNER][:[GROUP]] FILE...
+
+sudo chown -R mario:mario slave/
+
+# install fsearch on fedora
+dnf copr enable cboxdoerfer/fsearch
+dnf install fsearch
+
+# fix folder and files permissions
+For directories only do this.
+find . -type d -exec chmod 775 {} \;
+
+For files only do this.
+find . -type f -exec chmod 644 {} \;
+
+#install rpms
+sudo rpm -i sample_file.rpm
+
+# install uninstall tlp
+sudo vim /etc/tlp.conf
+sudo tlp start
+systemctl enable tlp.service
+systemctl mask power-profiles-daemon.service
+systemctl mask systemd-rfkill.service
+systemctl mask systemd-rfkill.socket
+
+# check tlp stats
+sudo tlp-stat -p
+
+# change key assignations on i3 !example
+bindsym --release Mod4+c exec --no-startup-id xdotool key --clearmodifiers Ctrl+Insert
+bindsym --release Mod4+x exec --no-startup-id xdotool key --clearmodifiers Shift+Delete
+bindsym --release Mod4+v exec --no-startup-id xdotool key --clearmodifiers Shift+Insert
+
+# crontab as root
+sudo crontab -u root -e
+# crontab every x minutes
+*/x * * * * /bin/execute/this/script.sh
+
+# steam & terminal command to run games on dedicated graphics
+gamemoderun __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia __VK_LAYER_NV_optimus=NVIDIA_only VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json %command%
+
+# make usb installer Run sudo fdisk -l and note down the device name of the
+# flash drive. You would be able to find it somewhere near the bottom lines. For
+# example, let the name is /dev/sdb1.
+# Use the following command to write the ISO on the flash drive:
+
+sudo dd if=/path-to-the-iso/ubuntu-18.04.1-desktop-amd64.iso of=/dev/sdb bs=8M
+
+# mount external drives 
+sudo mount /dev/sda1 /mnt/linbak/
+sudo mount /dev/sda2 /mnt/winbak/
+sudo mount /dev/sdb1 /mnt/backup/
+
+# NFS SHARES
+# check nfs status
+systemctl status nfs-server.service status
+
+# start and enable nfs services
+systemctl start nfs-server && systemctl enable nfs-server
+
+# config firewall to allow nfs shares
+firewall-cmd --permanent --zone=public --add-service=ssh
+
+# setup folders to share
+sudo vim /etc/exports
+
+# folder to share / ip / permissions and flags
+/mnt/slave 192.168.1.15(rw,no_root_squash,async)
+/mnt/winbak 192.168.1.15(rw,no_root_squash,async)
+
+# start/stop/restart
+systemctl start/stop/restart nfs-server.service
+
+# mount nfs shares
+sudo mount -t nfs 192.168.1.14:/home/mario /mnt/g17/
+
+# mount nfs shares on startup edit fstab
+sudo vim /etc/fstab
+g17:/home/mario /mnt/g17 nfs
+
+# unmount
+sudo umount /mnt/g17
+
+# install xrdp (windows remote desktop protocol)
+# install
+sudo dnf install xrdp -y
+# enable start service
+sudo systemctl enable xrdp
+sudo systemctl start xrdp
+sudo systemctl status xrdp
+
+# edit & update grub
+sudo vim /etc/default/grub
+sudo grub2-mkconfig -o /etc/grub2.cfg
+
+# backup virt-manager vms
+sudo su
+cd /var/lib/libvirt/images
+echo '' > win10.xml && virsh dumpxml win10 > win10.xml && cp -v win10.xml /mnt/linbak/vms && echo "Copia del XML del VMS OK"
+cp -v win10.qcow2 /mnt/linbak/vms && echo "Copia del disco VMS OK"
+
+# restaurar virt-manager vms
+sudo -s
+virsh define --file /mnt/linbak/vms/win10.xml
+cp /mnt/linbak/vms/win10.qcow2 /var/lib/libvirt/images/
+
+# remove bad kernels on fedora
+uname -sr
+rpm -qa kernel-core
+sudo dnf remove kernel-core-x.x.x-xxx.fcxx.x86_64
+
+# block asus custom kernel, add this to luke repo
+sudo vim /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:lukenukem:asus-linux.repo
+exclude=kernel kernel-modules-extra kernel-devel-matched kernel-core kernel-devel kernel-modules
+
+# config login remoto sshd
+sudo vim /etc/ssh/sshd_config
+sudo systemctl start/stop/restart/status sshd.service
+
+# To configure the sshd daemon to start/remove automatically at boot time:
+sudo systemctl enable/disable sshd.service
+
+# setup custom fan profiles in asusctl
+asusctl fan-curve -e true -m Quiet -D "30c:0%,40c:0%,50c:0%,60c:30%,70c:40%,80c:50%,90c:90%,100c:100%"
+asusctl fan-curve -e true -m Balanced -D "30c:0%,40c:10%,50c:30%,60c:30%,70c:40%,80c:50%,90c:
+100%,100c:100%"
+
+# launch app from terminal async
+$ appName &
+
+# fix qt save panel jumping to search in i3 Uninstall xdg-desktop-portal-gnome,
+ensure xdg-desktop-portal-gtk is installed, reboot. Log in and open a terminal
+and run pgrep -fa portal and make sure you see xdg-desktop-portal-gtk running
+and not xdg-desktop-portal-gnome.
+
+# vmware workstation
+# edit /etc/fuse.conf
+uncomment user_allow_other
+
+# mount shares
+vmhgfs-fuse .host:/pelis /home/mario/pelis -o subtype=vmhgfs-fuse,allow_other
+
+# samba fedora setup
+# https://docs.fedoraproject.org/en-US/quick-docs/samba/
+
+sudo dnf install samba
+sudo systemctl enable smb --now
+firewall-cmd --get-active-zones
+sudo firewall-cmd --permanent --zone=FedoraWorkstation --add-service=samba
+sudo firewall-cmd --reload
+
+sudo smbpasswd -a mario
+
+mkdir /home/mario/share
+sudo semanage fcontext --add --type "samba_share_t" "/home/mario/share(/.*)?"
+sudo restorecon -R ~/share
+
+vim /etc/samba/smb.conf
+
+[smbshare]
+comment = samba share
+path = /home/mario/share
+public = yes
+writable = yes
+write list = user
+create mask = 0644
+directory mask = 0755
+browseable = yes
+
+sudo systemctl restart smb
+
+# mount cif windows shares
+# https://linuxize.com/post/how-to-mount-cifs-windows-share-on-linux/
+
+# put this on /etc/fstab
+
+# <file system>             <dir>          <type> <options>                                                   <dump>  <pass>
+//192.168.1.100/temp10  /mnt/win10_share  cifs  credentials=/etc/win-credentials,file_mode=0777,dir_mode=0777 0       0
+//192.168.1.160/temp11  /mnt/win11_share  cifs  credentials=/etc/win-credentials,file_mode=0777,dir_mode=0777 0       0
+
+# make the dirs on mnt
+mkdir /mnt/win10
+mkdir /mnt/win11
+
+systemctl daemon-reload
+
+sudo mount /mnt/win10
+sudo mount /mnt/win11
+
+# pipe commmands from dmenu to xdotool
+'
+xdotool type $(grep -v '^#' ~/textfile | dmenu -i -l 50 | cut -d' ' -f1)
+
+# notify
+dnf install dunst notify-send
+
+# find bin
+xcrun -find binname
+
+# wsl2 ssh setup, run this in powershell amd64
+netsh interface portproxy add v4tov4 listenport=2222 listenaddress=0.0.0.0 connectport=2222 connectaddress=xxx.xxx.xx.xx wsl2 ip
+
+# install plex media server ubuntu
+sudo apt update
+sudo apt install plexmediaserver
+
+sudo systemctl status plexmediaserver
+
+# plex adjust firewall
+sudo vim /etc/ufw/applications.d/plexmediaserver
+
+[plexmediaserver]
+title=Plex Media Server (Standard)
+description=The Plex Media Server
+ports=32400/tcp|3005/tcp|5353/udp|8324/tcp|32410:32414/udp
+
+[plexmediaserver-dlna]
+title=Plex Media Server (DLNA)
+description=The Plex Media Server (additional DLNA capability only)
+ports=1900/udp|32469/tcp
+
+[plexmediaserver-all]
+title=Plex Media Server (Standard + DLNA)
+description=The Plex Media Server (with additional DLNA capability)
+ports=32400/tcp|3005/tcp|5353/udp|8324/tcp|32410:32414/udp|1900/udp|32469/tcp
+
+sudo ufw app update plexmediaserver
+sudo ufw allow plexmediaserver-all
+sudo ufw status verbose
+
+# make folder plex owner
+sudo chown -R plex: /plexmedia
+
+# and make the plex media folder accesible for all then restart
+sudo chmod -R 777 /plexmedia
+
+# samba config for ubuntu
+sudo apt install samba
+sudo smbpasswd -a mario
+sudo ufw allow samba
+sudo vim /etc/samba/smb.conf
+
+[rus]
+comment = rus videos
+path = /mnt/slave2/rus
+force user = mario
+public = yes
+writable = yes
+create mask = 0644
+directory mask = 0755
+force directory mode = 0775
+browseable = yes
+
+sudo systemctl restart smbd
+sudo systemctl status smbd
+
+# install sdl2 dev libs
+sudo apt install libsdl2-dev libsdl2-doc libsdl2-2.0-0 libsdl2-image-2.0-0 libsdl2-image-dev libsdl2-mixer-2.0-0 libsdl2-mixer-dev libsdl2-net-2.0-0 libsdl2-net-dev libsdl2-ttf-2.0-0 libsdl2-ttf-dev
+
+# install ncurses libs
+sudo apt install ncurses-doc ncurses-base ncurses-bin ncurses-examples libncurses5 libncurses5-dev
+
+# install cuda dev on ubuntu
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
+sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
+wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_installers/cuda-repo-ubuntu2204-12-1-local_12.1.1-530.30.02-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu2204-12-1-local_12.1.1-530.30.02-1_amd64.deb
+sudo cp /var/cuda-repo-ubuntu2204-12-1-local/cuda-*-keyring.gpg /usr/share/keyrings/
+sudo apt-get update
+sudo apt-get -y install cuda
+
+# enable disable power button
+#disable
+sudo systemctl mask poweroff.target
+#enable
+sudo systemctl unmask poweroff.target
+
+# install nodejs 14 on ubuntu
+ucurl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+;; emacs FZF keybindings
+(global-set-key (kbd "C-M-s-f") 'fzf)
+(global-set-key (kbd "C-M-s-s") 'fzf-find-in-buffer)
+(global-set-key (kbd "C-M-s-r") 'fzf-recentf)
+(global-set-key (kbd "C-M-s-b") 'fzf-switch-buffer)
+
+# find libraries includes etc
+find /usr/include -name SDL2
+
+# pipe all output content of bash
+foo > allout.txt 2>&1
+
+# fedora install sdl2 devel
+sudo dnf install SDL2-devel SDL2_image-devel SDL2_mixer-devel SDL2_net-devel SDL2_sound-devel SDL2_ttf-devel
+
+# change time zone wsl2 & ubuntu
+sudo dpkg-reconfigure tzdata
+
+# WSL2 ssh
+sudo apt update -y
+sudo apt install openssh-server -y
+sudo vim /etc/ssh/sshd_config
+
+## edit /etc/ssh/sshd_config with the following changes
+Port 22
+ListenAddress 0.0.0.0
+PasswordAuthentication yes
+
+sudo systemctl restart ssh && sudo systemctl enable ssh && sudo systemctl status ssh
+
+## powershell admin - proxy wsl ssh to windows
+netsh interface portproxy add v4tov4 `
+        listenport=22 `
+        listenaddress=0.0.0.0 `
+        connectport=22 `
+        connectaddress=172.x.x.x #get wsl2 ip with ip a
+
+## powershell admin - check port forwarding
+netsh interface portproxy show all
+
+## powershell admin - Add a new firewall rule to enable the port on the host machine:
+netsh advfirewall firewall add rule `
+  name="Open Port 22 - WSL 2" dir=in action=allow protocol=TCP localport=22
+
+# batch rename files on ubuntu
+sudo apt install rename
+
+## remove 1 space before .mkv
+rename -v 's/ \.mkv/.mkv/' *.mkv
+
+## remove (text) from the end of a file
+rename -v 's/\(1080p BluRay x265 Silence\)//' *.mkv
