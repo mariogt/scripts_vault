@@ -1,3 +1,6 @@
+############# Created by Mario Gajardo Tassara #############
+
+
 # concat several terminal commands
 a; b = execute a then b 
 a && b = execute b only if a is executed succefully

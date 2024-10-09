@@ -1,4 +1,5 @@
 #!/bin/sh
+# Created by Mario Gajardo Tassara
 
 # install all cmus dependences
 sudo apt-get update

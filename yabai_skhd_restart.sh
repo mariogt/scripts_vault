@@ -1,4 +1,5 @@
 #!/bin/bash
+# Created by Mario Gajardo Tassara
 
 yabai --stop-service &>/dev/null
 killall yabai &>/dev/null

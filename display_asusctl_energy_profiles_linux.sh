@@ -1,4 +1,5 @@
 #!/bin/bash
+# Created by Mario Gajardo Tassara
 # show a nice icon depending on the active asusctl profile mode
 
 mode=$(echo $(asusctl profile -p | awk -F' ' '{print $4}'))

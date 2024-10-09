@@ -1,4 +1,5 @@
 #!/bin/bash
+# Created by Mario Gajardo Tassara
 
 #xrandr --output DP-1 --auto --right-of eDP-1
 #xrandr --output DP-1 --mode 2560x1440

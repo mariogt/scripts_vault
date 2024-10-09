@@ -1,4 +1,5 @@
 #!/bin/sh
+# Created by Mario Gajardo Tassara
 
 mkdir MyIcon.iconset
 sips -z 16 16 16x16.png --out MyIcon.iconset/icon_16x16.png

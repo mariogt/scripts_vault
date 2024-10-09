@@ -1,4 +1,5 @@
 #!/bin/sh
+# Created by Mario Gajardo Tassara
 
 if [ -e "$HOME/backups/yoursite.tar.gz" ]; then
 	echo "Old backup present ... deleting it"

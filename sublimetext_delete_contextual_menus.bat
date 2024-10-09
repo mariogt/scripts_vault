@@ -1,3 +1,5 @@
+REM ******************** Created by Mario Gajardo Tassara ******************** 
+
 @echo off
 
 @reg delete "HKEY_CLASSES_ROOT\*\shell\Open with Sublime Text\command" /f >nul 2>&1

@@ -1,3 +1,4 @@
+# Created by Mario Gajardo Tassara
 # updated on 24-09-2024
 
 # first we export winget list of apps installed on dev machine

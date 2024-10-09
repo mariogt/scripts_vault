@@ -1,4 +1,5 @@
 #!/bin/bash
+# Created by Mario Gajardo Tassara
 
 echo "------------------------"
 echo "GIT COMMIT - PUSH"

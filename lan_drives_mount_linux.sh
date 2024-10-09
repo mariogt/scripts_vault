@@ -1,5 +1,4 @@
 #!/bin/sh
-
 #  lan_drives_mount_linux.sh
 #  Created by Mario Gajardo Tassara --> 12-2023
 #

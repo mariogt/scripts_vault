@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #  tiempoTerminal.sh
 #  Created by Mario Gajardo Tassara --> 21:51 22-01-2024
 #

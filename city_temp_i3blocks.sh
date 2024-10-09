@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #  city_temp_i3blocks.sh
 #  Created by Mario Gajardo Tassara --> 29-05-2022 18:57:39
 #

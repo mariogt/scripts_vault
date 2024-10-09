@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #  Created by Mario Gajardo Tassara --> 29-05-2022 18:51:07
 #
 #  return date and time,
