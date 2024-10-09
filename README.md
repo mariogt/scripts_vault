@@ -13,7 +13,7 @@ Also I included a txt file with useful linux tips/snippets/hacks, enjoy!
 
 ```
                 __
-               /\/'-,
+               /\/'-,  Woof! Woof!
        ,--'''''   /"
  ____,'.  )       \___
 '"""""------'"""`-----'
